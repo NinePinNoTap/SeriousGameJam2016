@@ -45,6 +45,11 @@ public class ClickToInteract : MonoBehaviour
 				Debug.Log (hit.transform.name);
 				menuHandler.HandleClick(hit.transform.name);
 			}
+			else
+			{
+				// Send a no click
+				menuHandler.HandleClick("");
+			}
 		}
 	}
 }

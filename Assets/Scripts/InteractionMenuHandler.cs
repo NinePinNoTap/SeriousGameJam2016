@@ -14,13 +14,11 @@ public class InteractionMenuHandler : MonoBehaviour
 	public GameObject menuObj;					// Created object
 
 	[Header("Properties")]
-	public string nameCloseButton = "Close Button";		// Name of the close button
 	private string interactedComponentName = "";					// Name of the interacted item
 	
 	public void HandleClick(string name)
 	{
-		// Check if we want to close the menu
-		if(name.Equals(nameCloseButton))
+		if(name.Equals(""))
 		{
 			DestroySelf();
 			return;
