@@ -3,8 +3,10 @@ using System.Collections;
 
 public class SwipeToRotate : MonoBehaviour
 {
+	[Header("Properties")]
 	public float rotationSpeed = 10.0f;			// How fast to spin
 	public float lerpSpeed = 1.0f;				// How fast to reduce speed
+	public MouseButton buttonInput;			
 	
 	private Vector3 currentSwipe;	
 	private Vector3 averageSwipeSpeed;
@@ -13,8 +15,19 @@ public class SwipeToRotate : MonoBehaviour
 
 	void Update () 
 	{
+		if (Input.GetMouseButtonDown((int)buttonInput))
+		{
+			// Flag we are swiping
+			isSwiping = true;
+		}
+		else if (Input.GetMouseButtonUp((int)buttonInput))
+		{
+			// Flag we aren't swiping
+			isSwiping = false;
+		}
+
 		// Check for mouse input 
-		if (Input.GetMouseButton(0) && isSwiping)
+		if (Input.GetMouseButton((int)buttonInput) && isSwiping)
 		{
 			// Get the current mouse position (inverted in X)
 			currentSwipe = new Vector3(-Input.GetAxis ("Mouse X"), Input.GetAxis("Mouse Y"), 0);
@@ -43,13 +56,10 @@ public class SwipeToRotate : MonoBehaviour
 
 	void OnMouseDown() 
 	{
-		// Flag we are swiping
-		isSwiping = true;
+
 	}
 
 	void OnMouseUp()
 	{
-		// Flag we aren't swiping
-		isSwiping = false;
 	}
 }
