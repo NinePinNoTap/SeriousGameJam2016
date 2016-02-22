@@ -23,6 +23,7 @@ public class Scenario
 		CHARGING_ON,
 		CHARGING_OFF,
 		CONTACT_PHONE_PROVIDER,
+		REPORT_PHONE_STATE
 	}
 	public List<actions> History { get; private set; }
 

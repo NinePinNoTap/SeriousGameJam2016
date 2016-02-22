@@ -28,17 +28,21 @@ public static class ScenarioStore
 
 
 //	Consistent loss conditions: 
-//•    If the SIM card is removed/damaged.
-//x    If the SD card is removed/damaged.
-//•    If Faraday cage not fitted/airplane mode not activated.
-//x    If the phone is turned off.
-//?    Failure to report correct state of phone.
 	private static List<Rule> LossRules = new List<Rule> 
 		{
-		new Rule( scene => scene.History.Any(x => x == Scenario.actions.SD_CARD_REMOVED || x == Scenario.actions.SD_CARD_DAMAGED), 
-				"Do not remove the SD card or allow it to be damaged"),
-			new Rule( scene => true , "The phone should be left in a Faraday cage or be put into Airplane mode."),
-			new Rule( scene => scene.History.Contains(Scenario.actions.TURN_OFF), "The phone should never be turned off." ),
+			//•    If the SIM card is removed/damaged.
+			new Rule( scene => scene.History.Any(x => x == Scenario.actions.SIM_CARD_REMOVED || x == Scenario.actions.SIM_CARD_DAMAGED), 
+					"Do not remove the SIM card or allow it to be damaged"),
+			//x    If the SD card is removed/damaged.
+			new Rule( scene => scene.History.Any(x => x == Scenario.actions.SD_CARD_REMOVED || x == Scenario.actions.SD_CARD_DAMAGED), 
+					"Do not remove the SD card or allow it to be damaged"),
+			//•    If Faraday cage not fitted/airplane mode not activated.
+				new Rule( scene => IsAfter(scene, Scenario.actions.IN_FARADAY, Scenario.actions.OUT_FARADAY) , 
+					"The phone should be left in a Faraday cage or be put into Airplane mode."),
+			//x    If the phone is turned off.
+			new Rule( scene => scene.History.Any(x => x == Scenario.actions.TURN_OFF), "The phone should never be turned off." ),
+			//?    Failure to report correct state of phone.
+			new Rule( scene => scene.History.Any(x => x == Scenario.actions.REPORT_PHONE_STATE), "You need to report the state of the phone." ),
 		};
 
 
