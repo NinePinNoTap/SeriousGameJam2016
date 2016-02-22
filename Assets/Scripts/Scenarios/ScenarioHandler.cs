@@ -3,30 +3,32 @@
 /// </summary>
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.UI;
 using System;
+using System.Linq;
 
-public class ScenarioHandler : MonoBehaviour {
-
-    //Text gameobject fields
-    public Text suspectScenario;
-
+public class ScenarioHandler : MonoBehaviour 
+{
     public Scenario currentScenario;
 
     // Use this for initialization
-    void Start () {
-//        string[] suspectStringCollection = { "Murder with Arrest", "Missing Child", "Hacking Suspicion" };
-//        suspectString = suspectStringCollection.RandomItem();
-//        suspectScenario.text = suspectString;
+    void Start () 
+    {
 		currentScenario = ScenarioStore.Data.RandomItem();
     }
     
-    // Update is called once per frame
-    void Update () 
+    public IList<string> CheckVictory()
     {
- 
-    
+		IList<string> errors = currentScenario.TestAllRules().ToList();
+		foreach(var error in ScenarioStore.CheckLosses(currentScenario))
+		{
+			errors.Add(error);
+		}
+    	return errors;
     }
+
+
 }
 
 //Extension class to pick a random string from an array
