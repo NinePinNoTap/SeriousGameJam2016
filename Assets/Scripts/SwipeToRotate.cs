@@ -6,15 +6,25 @@ public class SwipeToRotate : MonoBehaviour
 	[Header("Properties")]
 	public float rotationSpeed = 10.0f;			// How fast to spin
 	public float lerpSpeed = 1.0f;				// How fast to reduce speed
-	public MouseButton buttonInput;			
+	public MouseButton buttonInput;		
+	public bool isActivated;					// Flag for whether or not we can swipe
 	
 	private Vector3 currentSwipe;	
 	private Vector3 averageSwipeSpeed;
 	private bool isSwiping;
 	private Vector3 targetcurrentSwipeX;
 
+	void Start()
+	{
+		// Flag we can swipe
+		isActivated = true;
+	}
+
 	void Update () 
 	{
+		if(!isActivated)
+			return;
+
 		if (Input.GetMouseButtonDown((int)buttonInput))
 		{
 			// Flag we are swiping
@@ -54,12 +64,13 @@ public class SwipeToRotate : MonoBehaviour
 		transform.Rotate( Camera.main.transform.right * currentSwipe.y * rotationSpeed, Space.World );
 	}
 
-	void OnMouseDown() 
+	public void Activate()
 	{
-
+		isActivated = true;
 	}
 
-	void OnMouseUp()
+	public void Deactivate()
 	{
+		isActivated = false;
 	}
 }
