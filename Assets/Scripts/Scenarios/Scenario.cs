@@ -23,8 +23,13 @@ public class Scenario
 		CHARGING_ON,
 		CHARGING_OFF,
 		CONTACT_PHONE_PROVIDER,
-		REPORT_PHONE_STATE
-	}
+		REPORT_PHONE_STATE,
+		BACK_REMOVED,
+		BACK_PUT_ON,
+		BATTERY_REMOVED,
+		BATTERY_PUT_IN
+	};
+
 	public List<actions> History { get; private set; }
 
 	public bool IsBatteryLow { get; private set; }
@@ -41,6 +46,8 @@ public class Scenario
 		IsWifi = isWifi;
 		Context = context;
 		Rules = rules;
+
+		History = new List<actions>();
 	}
 
 	public void Serialise(string inputData)
@@ -75,5 +82,10 @@ public class Scenario
 	public IEnumerable<string> TestAllRules()
 	{
 		return Rules.Where(x => x.Test(this)).Select(x => x.Description);
+	}
+
+	public void SetHistoricalAction(Scenario.actions action)
+	{
+		History.Add(action);
 	}
 }
