@@ -140,6 +140,7 @@ public class ButtonHandler : MonoBehaviour
 			ScenarioHandler.Instance.currentScenario.SetHistoricalAction(Scenario.actions.TurnOn);
 		}
         phoneController.TurnPhoneOn();
+        phoneController.ShowLockScreen();
     }
 
     public void TurnOffPhone()
