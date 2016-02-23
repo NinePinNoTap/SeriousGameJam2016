@@ -74,10 +74,7 @@ public class PhoneController : MonoBehaviour
 
 	public void TurnAirplaneModeOn()
 	{
-		if(canvasPhoneOn.activeSelf && !lockScreen.isToggled)
-		{
-			imageAirplaneMode.Toggle(true);
-		}
+		imageAirplaneMode.Toggle(true);
 	}
 
 	public void TurnAirplaneModeOff()

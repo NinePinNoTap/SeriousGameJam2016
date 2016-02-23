@@ -90,9 +90,10 @@ public static class ScenarioStore
 	private static Rule FaradayRule
 	{
 		get {
-			return new Rule( scene => IsAfter(scene, Scenario.actions.InFaraday, Scenario.actions.OutFaraday),
-	                    "No Faraday Cage fitted - Potential data loss from remote access");
-
+			// Commented out as there is another check for the Faraday Cage In LossRules
+//			return new Rule( scene => IsAfter(scene, Scenario.actions.InFaraday, Scenario.actions.OutFaraday),
+//	                    "No Faraday Cage fitted - Potential data loss from remote access");
+			return new Rule( scene => true, "");
 		}	 
 	}
 

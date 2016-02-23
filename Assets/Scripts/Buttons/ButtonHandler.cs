@@ -135,7 +135,7 @@ public class ButtonHandler : MonoBehaviour
 
     public void TurnOnPhone()
     {
-		if(phoneController.canvasPhoneOff.activeInHierarchy)
+		if(phoneController.canvasPhoneOff.activeSelf)
 		{
 			ScenarioHandler.Instance.currentScenario.SetHistoricalAction(Scenario.actions.TurnOn);
 		}
@@ -145,7 +145,7 @@ public class ButtonHandler : MonoBehaviour
 
     public void TurnOffPhone()
     {
-		if(phoneController.canvasPhoneOn.activeInHierarchy)
+		if(phoneController.canvasPhoneOn.activeSelf)
 		{
 			ScenarioHandler.Instance.currentScenario.SetHistoricalAction(Scenario.actions.TurnOff);
 		}
@@ -158,21 +158,27 @@ public class ButtonHandler : MonoBehaviour
 
     public void TurnOnAeroplaneMode()
     {
-		if(!phoneController.imageAirplaneMode.isToggled)
+		if(phoneController.canvasPhoneOn.activeSelf && !phoneController.lockScreen.isToggled)
 		{
-			ScenarioHandler.Instance.currentScenario.SetHistoricalAction(Scenario.actions.AirplaneModeOn);
-		}
-        phoneController.TurnAirplaneModeOn();
+			if(!phoneController.imageAirplaneMode.isToggled)
+			{
+				ScenarioHandler.Instance.currentScenario.SetHistoricalAction(Scenario.actions.AirplaneModeOn);
+			}
+	        phoneController.TurnAirplaneModeOn();
+        }
     }
 
     public void TurnOffAeroplaneMode()
     {
-		if(phoneController.imageAirplaneMode.isToggled)
+		if(phoneController.canvasPhoneOn.activeSelf && !phoneController.lockScreen.isToggled)
 		{
-			ScenarioHandler.Instance.currentScenario.SetHistoricalAction(Scenario.actions.AirplaneModeOff);
-		}
+			if(phoneController.imageAirplaneMode.isToggled)
+			{
+				ScenarioHandler.Instance.currentScenario.SetHistoricalAction(Scenario.actions.AirplaneModeOff);
+			}
 
-        phoneController.TurnAirplaneModeOff();
+	        phoneController.TurnAirplaneModeOff();
+	    }
     }
 
     //==============================================
