@@ -117,8 +117,9 @@ public static class ScenarioStore
 	private static Rule KeepUnlockedRule
 	{
 		get {
-			return new Rule( scene => false,
-				"Phone Allowed to Lock - Potential data loss");
+//			return new Rule( scene => false,
+//				"Phone Allowed to Lock - Potential data loss");
+			return new Rule( scene => true,	"");
 
 		}	 
 	}

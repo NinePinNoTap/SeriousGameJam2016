@@ -118,14 +118,14 @@ public class ButtonHandler : MonoBehaviour
     public void RemoveBattery()
     {
         TrySetActive("batteryCard", false);
-		phoneController.TurnPhoneOff();
+		TurnOffPhone();
         LeaveAlone();
     }
 
     public void DestroyBattery()
     {
         TryDestroy("batteryCard");
-		phoneController.TurnPhoneOff();
+		TurnOffPhone();
         LeaveAlone();
     }
 
