@@ -108,7 +108,9 @@ public class InteractionMenuHandler : MonoBehaviour
 
             // Set names
             obj.name = "Menu Button : " + (i+1);
-            obj.transform.GetChild(0).GetComponent<Text>().text = menuData.menuButtons[i].buttonText;
+			obj.transform.GetChild(0).GetComponent<Text>().enabled = false;// = menuData.menuButtons[i].buttonText;
+			obj.GetComponent<Button>().targetGraphic = null;
+			obj.GetComponent<Image>().overrideSprite = menuData.menuButtons[i].activeButtonSprite;
 
             // Set parents
             obj.transform.SetParent(canvas.transform);
@@ -117,6 +119,8 @@ public class InteractionMenuHandler : MonoBehaviour
             // Set transforms
             obj.transform.localScale = new Vector3(1,1,1);
             obj.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 20 + (i*buttonHeight));
+
+			//obj.transform.position = new Vector2(0, 20 + i*(buttonHeight));
 
             // For some reason delegate needs this
             string functionName = menuData.menuButtons[i].functionName;

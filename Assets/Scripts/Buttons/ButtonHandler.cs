@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+﻿using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 
 /*
@@ -11,7 +13,7 @@ public class ButtonHandler : MonoBehaviour
 {
     public string componentTag = "PhoneComponent";
     public PhoneController phoneController;
-
+	public GameObject InQuestion;
     private Dictionary<string, GameObject> objDictionary;
 
     void Start()
@@ -80,13 +82,18 @@ public class ButtonHandler : MonoBehaviour
 			ScenarioHandler.Instance.currentScenario.SetHistoricalAction(Scenario.actions.SimCardRemoved);
 		}
         TrySetActive("simCard", false);
+		InQuestion = GameObject.Find("simCard");
+		Destroy (InQuestion);
         LeaveAlone();
+
     }
 
     public void DestroySim()
     {
 		ScenarioHandler.Instance.currentScenario.SetHistoricalAction(Scenario.actions.SimCardDamaged);
         TryDestroy("simCard");
+		InQuestion = GameObject.Find("simCard");
+		Destroy (InQuestion);
         LeaveAlone();
     }
 
@@ -118,7 +125,7 @@ public class ButtonHandler : MonoBehaviour
     public void RemoveBattery()
     {
         TrySetActive("batteryCard", false);
-		TurnOffPhone();
+		phoneController.TurnPhoneOff();
 		phoneController.IsBatteryProvidingPower = false;
         LeaveAlone();
     }
@@ -126,7 +133,7 @@ public class ButtonHandler : MonoBehaviour
     public void DestroyBattery()
     {
         TryDestroy("batteryCard");
-		TurnOffPhone();
+		phoneController.TurnPhoneOff();
 		phoneController.IsBatteryProvidingPower = false;
         LeaveAlone();
     }
@@ -135,7 +142,7 @@ public class ButtonHandler : MonoBehaviour
     // POWER BUTTON
     //==============================================
 
-    public void TurnOnPhone()
+		public void TurnOnPhone()
     {
 		if(phoneController.IsBatteryProvidingPower)
 		{
@@ -147,45 +154,44 @@ public class ButtonHandler : MonoBehaviour
 	        phoneController.ShowLockScreen();
         }
     }
-
-    public void TurnOffPhone()
-    {
+	
+	public void TurnOffPhone()
+	{
 		if(phoneController.canvasPhoneOn.activeSelf)
 		{
 			ScenarioHandler.Instance.currentScenario.SetHistoricalAction(Scenario.actions.TurnOff);
 		}
-        phoneController.TurnPhoneOff();
-    }
-
-    //==============================================
-    // AEROPLANE MODE
-    //==============================================
-
-    public void TurnOnAeroplaneMode()
-    {
+		phoneController.TurnPhoneOff();
+	}
+	
+	//==============================================
+	// AEROPLANE MODE
+	//==============================================
+	
+	public void TurnOnAeroplaneMode()
+	{
 		if(phoneController.canvasPhoneOn.activeSelf && !phoneController.lockScreen.isToggled)
 		{
 			if(!phoneController.imageAirplaneMode.isToggled)
 			{
 				ScenarioHandler.Instance.currentScenario.SetHistoricalAction(Scenario.actions.AirplaneModeOn);
 			}
-	        phoneController.TurnAirplaneModeOn();
-        }
-    }
-
-    public void TurnOffAeroplaneMode()
-    {
+			phoneController.TurnAirplaneModeOn();
+		}
+	}
+	
+	public void TurnOffAeroplaneMode()
+	{
 		if(phoneController.canvasPhoneOn.activeSelf && !phoneController.lockScreen.isToggled)
 		{
 			if(phoneController.imageAirplaneMode.isToggled)
 			{
 				ScenarioHandler.Instance.currentScenario.SetHistoricalAction(Scenario.actions.AirplaneModeOff);
 			}
-
-	        phoneController.TurnAirplaneModeOff();
-	    }
-    }
-
+			
+			phoneController.TurnAirplaneModeOff();
+		}
+	}
     //==============================================
     // CHARGE SLOT
     //==============================================

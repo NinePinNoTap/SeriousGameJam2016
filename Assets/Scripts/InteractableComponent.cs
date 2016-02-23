@@ -5,6 +5,7 @@ using System.Collections.Generic;
 [System.Serializable]
 public class MenuButton
 {
+	public Sprite activeButtonSprite;
     public string buttonText;
     public string functionName;  
 };
