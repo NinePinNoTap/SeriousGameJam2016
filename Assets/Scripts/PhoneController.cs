@@ -21,10 +21,16 @@ public class PhoneController : MonoBehaviour
 	[Header("Lockscreen")]
 	public ToggleImage lockScreen;
 
+	[Header("Audio Details")]
+	public AudioController audioController1;
+	public AudioClip PhoneOnClip;
+	public AudioClip PhoneOffClip;
+	
 	public void TurnPhoneOn()
 	{
 		canvasPhoneOn.SetActive(true);
 		canvasPhoneOff.SetActive(false);
+		//AudioController.PlaySound(PhoneOnClip);
 	}
 
 	public void TurnPhoneOff()
