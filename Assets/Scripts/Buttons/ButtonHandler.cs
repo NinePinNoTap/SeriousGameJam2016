@@ -11,7 +11,7 @@ public class ButtonHandler : MonoBehaviour
 {
     public string componentTag = "PhoneComponent";
     public PhoneController phoneController;
-
+	public GameObject InQuestion;
     private Dictionary<string, GameObject> objDictionary;
 
     void Start()
@@ -80,13 +80,18 @@ public class ButtonHandler : MonoBehaviour
 			ScenarioHandler.Instance.currentScenario.SetHistoricalAction(Scenario.actions.SimCardRemoved);
 		}
         TrySetActive("simCard", false);
+		InQuestion = GameObject.Find("simCard");
+		Destroy (InQuestion);
         LeaveAlone();
+
     }
 
     public void DestroySim()
     {
 		ScenarioHandler.Instance.currentScenario.SetHistoricalAction(Scenario.actions.SimCardDamaged);
         TryDestroy("simCard");
+		InQuestion = GameObject.Find("simCard");
+		Destroy (InQuestion);
         LeaveAlone();
     }
 
