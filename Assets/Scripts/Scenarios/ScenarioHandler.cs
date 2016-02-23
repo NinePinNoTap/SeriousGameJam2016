@@ -21,7 +21,7 @@ public class ScenarioHandler : MonoBehaviour
     public IList<string> CheckVictory()
     {
 		IList<string> errors = currentScenario.TestAllRules().ToList();
-		foreach(var error in ScenarioStore.CheckLosses(currentScenario))
+		foreach(var error in currentScenario.CheckLosses())
 		{
 			errors.Add(error);
 		}
