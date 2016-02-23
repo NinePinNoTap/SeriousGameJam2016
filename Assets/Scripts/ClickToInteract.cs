@@ -43,12 +43,12 @@ public class ClickToInteract : MonoBehaviour
 			if (Physics.Raycast(ray, out hit))
 			{
 				Debug.Log (hit.transform.name);
-				menuHandler.HandleClick(hit.transform.name);
+                menuHandler.HandleClick(hit.transform.gameObject);
 			}
 			else
 			{
 				// Send a no click
-				menuHandler.HandleClick("");
+				menuHandler.HandleClick(null);
 			}
 		}
 	}

@@ -61,7 +61,7 @@ public class BatteryMonitor : MonoBehaviour
 	private void HandleBatteryLevel()
 	{
 		// Clamp battery
-		Mathf.Clamp(curBattery, minBattery, maxBattery);
+        curBattery = (int)Mathf.Clamp(curBattery, minBattery, maxBattery);
 
 		// Update text
 		batteryText.text = curBattery.ToString() + "%";
