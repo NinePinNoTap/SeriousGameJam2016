@@ -66,7 +66,7 @@ public class BatteryMonitor : MonoBehaviour
 		// Update text
 		batteryText.text = curBattery.ToString() + "%";
 
-		if(curBattery < 10)
+		if(curBattery < 20)
 		{
 			batteryText.color = Color.red;
 		}

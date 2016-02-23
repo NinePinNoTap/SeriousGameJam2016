@@ -26,7 +26,38 @@ public class PhoneController : MonoBehaviour
 	public AudioController audioController1;
 	public AudioClip PhoneOnClip;
 	public AudioClip PhoneOffClip;
-	
+
+	void Start()
+	{
+		Invoke("Initialise", 0.25f);
+	}
+
+	private void Initialise()
+	{
+		if(ScenarioHandler.Instance.currentScenario.IsBatteryLow)
+		{
+			ChangeBatteryLevel(Random.Range(5, 15));
+		}
+		else
+		{
+			ChangeBatteryLevel(Random.Range(50, 100));
+		}
+
+		if(ScenarioHandler.Instance.currentScenario.IsPhoneLocked)
+		{
+			ShowLockScreen();
+		}
+		else
+		{
+			ShowHomeScreen();
+		}
+
+		if(ScenarioHandler.Instance.currentScenario.IsWifi)
+		{
+			imageAirplaneMode.Toggle(true);
+		}
+	}
+
 	public void TurnPhoneOn()
 	{
 		canvasPhoneOn.SetActive(true);

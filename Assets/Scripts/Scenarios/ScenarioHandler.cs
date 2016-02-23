@@ -12,33 +12,31 @@ public class ScenarioHandler : MonoBehaviour
 {
     public Scenario currentScenario;
     [SerializeField] Text context;
-    // private static ScenarioHandler _instance;
-    public static ScenarioHandler Instance {get; set;}
-//    { 
-//    	get 
-//    	{ 
-//    	}
-//    	private set
-//    	{
-//    		_instance = value;
-//    	}
-//    }
+    private static ScenarioHandler _instance;
+    public static ScenarioHandler Instance {get;set;}
+//    {
+//    	get {
+//    		if(_instance == null)
+//    		{
+//    			_instance = this;
+//    		}
+//	        return _instance;
+//    	} 
+//    	set { _instance = value; }
+//   	}
 
-	void Start () 
-    {
+	void Awake()
+	{
+		// ensure we are a singleton
 		if(Instance != null && Instance != this)
         {
-            // If that is the case, we destroy other instances
             Destroy(gameObject);
         }
- 
-        // Here we save our singleton instance
         Instance = this;
- 
-  		currentScenario = ScenarioStore.Data.RandomItem();
-    }
 
-
+        // ensure this is run before Start() is for other objects
+   		currentScenario = ScenarioStore.Data.RandomItem();
+   	}
 
 
     void Update()
@@ -55,8 +53,6 @@ public class ScenarioHandler : MonoBehaviour
 		}
     	return errors;
     }
-
-
 }
 
 //Extension class to pick a random string from an array
