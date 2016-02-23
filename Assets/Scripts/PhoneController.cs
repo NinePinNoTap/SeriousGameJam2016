@@ -18,6 +18,7 @@ public class PhoneController : MonoBehaviour
 	public BatteryMonitor batteryMonitor;
 	public ToggleImage imageLowBattery;
 	public bool IsCharging = false;
+	public bool IsBatteryProvidingPower = true;
 
 	[Header("Lockscreen")]
 	public ToggleImage lockScreen;

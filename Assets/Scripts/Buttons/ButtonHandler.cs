@@ -119,6 +119,7 @@ public class ButtonHandler : MonoBehaviour
     {
         TrySetActive("batteryCard", false);
 		TurnOffPhone();
+		phoneController.IsBatteryProvidingPower = false;
         LeaveAlone();
     }
 
@@ -126,6 +127,7 @@ public class ButtonHandler : MonoBehaviour
     {
         TryDestroy("batteryCard");
 		TurnOffPhone();
+		phoneController.IsBatteryProvidingPower = false;
         LeaveAlone();
     }
 
@@ -135,12 +137,15 @@ public class ButtonHandler : MonoBehaviour
 
     public void TurnOnPhone()
     {
-		if(phoneController.canvasPhoneOff.activeSelf)
+		if(phoneController.IsBatteryProvidingPower)
 		{
-			ScenarioHandler.Instance.currentScenario.SetHistoricalAction(Scenario.actions.TurnOn);
-		}
-        phoneController.TurnPhoneOn();
-        phoneController.ShowLockScreen();
+			if(phoneController.canvasPhoneOff.activeSelf)
+			{
+				ScenarioHandler.Instance.currentScenario.SetHistoricalAction(Scenario.actions.TurnOn);
+			}
+	        phoneController.TurnPhoneOn();
+	        phoneController.ShowLockScreen();
+        }
     }
 
     public void TurnOffPhone()
