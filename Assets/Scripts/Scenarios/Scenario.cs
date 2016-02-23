@@ -8,7 +8,7 @@ public class Scenario
 {
 	public enum actions
 	{
-		TurnOff,
+		TurnOff = 1,
 		TurnOn,
 		InFaraday,
 		OutFaraday,

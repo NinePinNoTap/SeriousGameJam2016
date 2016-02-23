@@ -24,6 +24,7 @@ public class ContactPhoneProvider : MonoBehaviour
 		// Set text
 		if(isActivated)
 		{
+			ScenarioHandler.Instance.currentScenario.SetHistoricalAction(Scenario.actions.ContactPhoneProvider);
 			Activate();
 		}
 		else

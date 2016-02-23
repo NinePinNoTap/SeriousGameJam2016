@@ -12,12 +12,34 @@ public class ScenarioHandler : MonoBehaviour
 {
     public Scenario currentScenario;
     [SerializeField] Text context;
+    // private static ScenarioHandler _instance;
+    public static ScenarioHandler Instance {get; set;}
+//    { 
+//    	get 
+//    	{ 
+//    	}
+//    	private set
+//    	{
+//    		_instance = value;
+//    	}
+//    }
 
-    // Use this for initialization
-    void Start () 
+	void Start () 
     {
-		currentScenario = ScenarioStore.Data.RandomItem();
+		if(Instance != null && Instance != this)
+        {
+            // If that is the case, we destroy other instances
+            Destroy(gameObject);
+        }
+ 
+        // Here we save our singleton instance
+        Instance = this;
+ 
+  		currentScenario = ScenarioStore.Data.RandomItem();
     }
+
+
+
 
     void Update()
     {

@@ -33,10 +33,12 @@ public class ApplyFaradayCage : MonoBehaviour
 		// Set text
 		if(isActivated)
 		{
+			ScenarioHandler.Instance.currentScenario.SetHistoricalAction(Scenario.actions.InFaraday);
 			Activate();
 		}
 		else
 		{
+			ScenarioHandler.Instance.currentScenario.SetHistoricalAction(Scenario.actions.OutFaraday);
 			Deactivate();
 		}
 	}

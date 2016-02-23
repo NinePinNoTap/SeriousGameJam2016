@@ -8,7 +8,7 @@ public class RestartButton : MonoBehaviour
 {
 	public void Restart()
 	{
-		Debug.Log("1111");
+		Destroy(ScenarioHandler.Instance);
 		Application.LoadLevel(Application.loadedLevel);
 	}
 }
