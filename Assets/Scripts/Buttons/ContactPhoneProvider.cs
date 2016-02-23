@@ -7,13 +7,19 @@ public class ContactPhoneProvider : MonoBehaviour
 	[Header("Components")]
 	public Text buttonText;
 
+	//Sprite for active button
+	public Sprite activeSprite;
+	public Sprite deactiveSprite;
+
+	//Gameobject to redirect towards this button
+	public Button thisButton;
+
 	[Header("Flags")]
 	public bool isActivated;
 
 	void Start()
 	{
 		isActivated = false;
-		buttonText.text = "Contact CSP";
 	}
 
 	public void Toggle()
@@ -35,6 +41,7 @@ public class ContactPhoneProvider : MonoBehaviour
 
 	private void Activate()
 	{
+		thisButton.image.sprite = activeSprite;
 	}
 
 	private void Deactivate()

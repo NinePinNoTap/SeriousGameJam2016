@@ -10,6 +10,13 @@ public class ApplyFaradayCage : MonoBehaviour
 	public GameObject faradayCage;
 	public Transform cameraTransform;
 
+	//Sprite for active button
+	public Sprite activeSprite;
+	public Sprite deactiveSprite;
+	
+	//Gameobject to redirect towards this button
+	public Button thisButton;
+
 	[Header("Flags")]
 	public bool isActivated;
 
@@ -45,14 +52,14 @@ public class ApplyFaradayCage : MonoBehaviour
 
 	private void Activate()
 	{
-		buttonText.text = textActive;
+		thisButton.image.sprite = activeSprite;
 		faradayCage.SetActive(true);
 		phoneSwipe.Deactivate();
 	}
 
 	private void Deactivate()
 	{
-		buttonText.text = textInactive;
+		thisButton.image.sprite = deactiveSprite;
 		faradayCage.SetActive(false);
 		phoneSwipe.Activate();
 	}
