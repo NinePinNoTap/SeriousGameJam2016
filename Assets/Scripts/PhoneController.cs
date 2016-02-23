@@ -70,7 +70,7 @@ public class PhoneController : MonoBehaviour
 	{
 		canvasPhoneOn.SetActive(false);
 		canvasPhoneOff.SetActive(true);
-		imageLowBattery.Toggle(false);
+		//imageLowBattery.Toggle(false);
 	}
 
 	public void TurnAirplaneModeOn()

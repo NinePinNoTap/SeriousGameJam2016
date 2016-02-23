@@ -26,7 +26,7 @@ public class SubmitButton : MonoBehaviour
 		}
 		else // they were successful
 		{
-			endText.text = "Amazing! You did it!";
+			endText.text = "Congratulations - You have completed Module 1 of ACPO TRAINER!";
 		}
 	}
 }
