@@ -138,47 +138,53 @@ public class ButtonHandler : MonoBehaviour
     // POWER BUTTON
     //==============================================
 
-    public void TurnOnPhone()
-    {
-		if(phoneController.canvasPhoneOff.activeInHierarchy)
+	public void TurnOnPhone()
+	{
+		if(phoneController.canvasPhoneOff.activeSelf)
 		{
 			ScenarioHandler.Instance.currentScenario.SetHistoricalAction(Scenario.actions.TurnOn);
 		}
-        phoneController.TurnPhoneOn();
-    }
-
-    public void TurnOffPhone()
-    {
-		if(phoneController.canvasPhoneOn.activeInHierarchy)
+		phoneController.TurnPhoneOn();
+		phoneController.ShowLockScreen();
+	}
+	
+	public void TurnOffPhone()
+	{
+		if(phoneController.canvasPhoneOn.activeSelf)
 		{
 			ScenarioHandler.Instance.currentScenario.SetHistoricalAction(Scenario.actions.TurnOff);
 		}
-        phoneController.TurnPhoneOff();
-    }
-
-    //==============================================
-    // AEROPLANE MODE
-    //==============================================
-
-    public void TurnOnAeroplaneMode()
-    {
-		if(!phoneController.imageAirplaneMode.isToggled)
+		phoneController.TurnPhoneOff();
+	}
+	
+	//==============================================
+	// AEROPLANE MODE
+	//==============================================
+	
+	public void TurnOnAeroplaneMode()
+	{
+		if(phoneController.canvasPhoneOn.activeSelf && !phoneController.lockScreen.isToggled)
 		{
-			ScenarioHandler.Instance.currentScenario.SetHistoricalAction(Scenario.actions.AirplaneModeOn);
+			if(!phoneController.imageAirplaneMode.isToggled)
+			{
+				ScenarioHandler.Instance.currentScenario.SetHistoricalAction(Scenario.actions.AirplaneModeOn);
+			}
+			phoneController.TurnAirplaneModeOn();
 		}
-        phoneController.TurnAirplaneModeOn();
-    }
-
-    public void TurnOffAeroplaneMode()
-    {
-		if(phoneController.imageAirplaneMode.isToggled)
+	}
+	
+	public void TurnOffAeroplaneMode()
+	{
+		if(phoneController.canvasPhoneOn.activeSelf && !phoneController.lockScreen.isToggled)
 		{
-			ScenarioHandler.Instance.currentScenario.SetHistoricalAction(Scenario.actions.AirplaneModeOff);
+			if(phoneController.imageAirplaneMode.isToggled)
+			{
+				ScenarioHandler.Instance.currentScenario.SetHistoricalAction(Scenario.actions.AirplaneModeOff);
+			}
+			
+			phoneController.TurnAirplaneModeOff();
 		}
-
-        phoneController.TurnAirplaneModeOff();
-    }
-
+	}
     //==============================================
     // CHARGE SLOT
     //==============================================
