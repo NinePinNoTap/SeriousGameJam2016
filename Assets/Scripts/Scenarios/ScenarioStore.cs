@@ -1,7 +1,3 @@
-using UnityEngine;
-using System.Collections;
-using UnityEngine.UI;
-using System;
 using System.Linq;
 using System.Collections.Generic;
 
@@ -9,41 +5,52 @@ public static class ScenarioStore
 {
 	// power low, phone locked,  wifi, Context, rules
 	// true, true, true, "A suspect has been arrested for a series of recent attacks. Whilst searching his home you find this phone on a kitchen countertop, alongside a pile of SD cards"
-	public static Scenario[] Data = 
+	public static readonly Scenario[] Data = 
 	{
 		new Scenario(true, true, true, 
 				"A suspect has been arrested for a series of recent attacks. Whilst searching his home you find this phone on a kitchen countertop, alongside a pile of SD cards",
 				new List<Rule> {
 				// is charging
-				new Rule( scene => IsAfter(scene, Scenario.actions.CHARGING_ON, Scenario.actions.CHARGING_OFF),
-					"Do not remove the SD card or allow it to be damaged"),
+				new Rule( scene => IsAfter(scene, Scenario.actions.ChargingOn, Scenario.actions.ChargingOff),
+                    "Phone out of battery - Potential data loss from power cycle"),
 				//	Faraday cage
-				new Rule( scene => IsAfter(scene, Scenario.actions.IN_FARADAY, Scenario.actions.OUT_FARADAY), 
-					"The phone must be left in the Faraday cage."),
+				new Rule( scene => IsAfter(scene, Scenario.actions.InFaraday, Scenario.actions.OutFaraday),
+                    "No Faraday Cage fitted - Potential data loss from remote access"),
 				//	Contact phone provider
-				new Rule( scene => scene.History.Any(x => x == Scenario.actions.CONTACT_PHONE_PROVIDER), 
+				new Rule( scene => scene.History.Contains(Scenario.actions.ContactPhoneProvider), 
 					"The phone provider should have been contacted")
 				})
 	};
 
-
-//	Consistent loss conditions: 
-	private static List<Rule> LossRules = new List<Rule> 
+    // If these are false, they lose!
+	public static readonly List<Rule> LossRules = new List<Rule> 
 		{
+            new Rule( scene => !scene.History.Contains(Scenario.actions.SimCardRemoved),
+                 "Sim Removed - See \"Appendix A - Volatile Data Collection\" of the ACPO Good Practice Guide for Digital Evidence"),
 			//•    If the SIM card is removed/damaged.
-			new Rule( scene => scene.History.Any(x => x == Scenario.actions.SIM_CARD_REMOVED || x == Scenario.actions.SIM_CARD_DAMAGED), 
-					"Do not remove the SIM card or allow it to be damaged"),
+		     new Rule( scene => !scene.History.Contains(Scenario.actions.SimCardDamaged),
+                 "Sim Destroyed - See \"Appendix A - Volatile Data Collection\" of the ACPO Good Practice Guide for Digital Evidence"),
 			//x    If the SD card is removed/damaged.
-			new Rule( scene => scene.History.Any(x => x == Scenario.actions.SD_CARD_REMOVED || x == Scenario.actions.SD_CARD_DAMAGED), 
-					"Do not remove the SD card or allow it to be damaged"),
+            new Rule( scene => !scene.History.Contains(Scenario.actions.SdCardRemoved),
+                 "SD Removed - See \"Appendix A - Volatile Data Collection\" of the ACPO Good Practice Guide for Digital Evidence"),
+			//•    If the SIM card is removed/damaged.
+		     new Rule( scene => !scene.History.Contains(Scenario.actions.SdCardDamaged),
+                 "SD Destroyed - See \"Appendix A - Volatile Data Collection\" of the ACPO Good Practice Guide for Digital Evidence"),
 			//•    If Faraday cage not fitted/airplane mode not activated.
-				new Rule( scene => IsAfter(scene, Scenario.actions.IN_FARADAY, Scenario.actions.OUT_FARADAY) , 
-					"The phone should be left in a Faraday cage or be put into Airplane mode."),
+			new Rule( scene => IsAfter(scene, Scenario.actions.InFaraday, Scenario.actions.OutFaraday) ,
+                    "No Faraday Cage fitted or Aeroplane Mode activated - Potential data loss from remote access"),
 			//x    If the phone is turned off.
-			new Rule( scene => scene.History.Any(x => x == Scenario.actions.TURN_OFF), "The phone should never be turned off." ),
+			new Rule( scene => !(scene.History.Any(x => x == Scenario.actions.TurnOff) || scene.History.Any(x => x == Scenario.actions.TurnOn)), 
+                 "Phone Power State Changed - See \"Appendix C - Mobile Phones\" of the ACPO Good Practice Guide for Digital Evidence"),
 			//?    Failure to report correct state of phone.
-			new Rule( scene => scene.History.Any(x => x == Scenario.actions.REPORT_PHONE_STATE), "You need to report the state of the phone." ),
+			new Rule( scene => scene.History.Any(x => x == Scenario.actions.ReportPhoneState), 
+                 "CSP not contacted - See \"Appendix D - Investigating Different Types of Crime\" of the ACPO Good Practice Guide for Digital Evidence")
 		};
+
+//
+//"Phone Allowed to Lock - Potential data loss"
+//"Phone out of battery - Potential data loss from power cycle"
+
 
 
 	public static IEnumerable<string> CheckLosses(Scenario scene)
@@ -54,13 +61,11 @@ public static class ScenarioStore
 
 	public static bool IsAfter(Scenario scene, Scenario.actions last, Scenario.actions before)
 	{
-		if(scene.History.Any(x => x == before))
+		if(scene.History.Contains(before))
 		{
-			return scene.History.Any(x => x == last);
+			return scene.History.Contains(last);
 		}
-		else
-		{
-			return scene.History.FindLastIndex(x => x == before) < scene.History.FindLastIndex(x => x == last);
-		}
+
+        return scene.History.FindLastIndex(x => x == before) < scene.History.FindLastIndex(x => x == last);
 	}
 } 

@@ -8,26 +8,26 @@ public class Scenario
 {
 	public enum actions
 	{
-		TURN_OFF,
-		TURN_ON,
-		IN_FARADAY,
-		OUT_FARADAY,
-		AIRPLANE_MODE_ON,
-		AIRPLANE_MODE_OFF,
-		SIM_CARD_REMOVED,
-		SIM_CARD_DAMAGED,
-		SIM_CARD_INSERTED,
-		SD_CARD_REMOVED,
-		SD_CARD_DAMAGED,
-		SD_CARD_INSERTED,
-		CHARGING_ON,
-		CHARGING_OFF,
-		CONTACT_PHONE_PROVIDER,
-		REPORT_PHONE_STATE,
-		BACK_REMOVED,
-		BACK_PUT_ON,
-		BATTERY_REMOVED,
-		BATTERY_PUT_IN
+		TurnOff,
+		TurnOn,
+		InFaraday,
+		OutFaraday,
+		AirplaneModeOn,
+	    AirplaneModeOff,
+	    SimCardRemoved,
+	    SimCardDamaged,
+	    SimCardInserted,
+	    SdCardRemoved,
+	    SdCardDamaged,
+	    SdCardInserted,
+	    ChargingOn,
+	    ChargingOff,
+	    ContactPhoneProvider,
+	    ReportPhoneState,
+	    BackRemoved,
+	    BackPutOn,
+	    BatteryRemoved,
+	    BatteryPutIn
 	};
 
 	public List<actions> History { get; private set; }
@@ -50,21 +50,11 @@ public class Scenario
 		History = new List<actions>();
 	}
 
-	public void Serialise(string inputData)
-	{
-		string[] data = inputData.Split("|".ToCharArray());	
-
-		IsBatteryLow = data[0] == "1";
-		IsPhoneLocked = data[1] == "1";
-		IsWifi = data[2] == "1";
-		Context = data[3];
-	}
-
 	public void TurnOffPhone()
 	{
 		if(IsOn)
 		{
-			History.Add(actions.TURN_OFF);
+			History.Add(actions.TurnOff);
 			IsOn = false;
 		}
 	}
@@ -73,7 +63,7 @@ public class Scenario
 	{
 		if(!IsOn)
 		{
-			History.Add(actions.TURN_ON);
+			History.Add(actions.TurnOn);
 			IsOn = true;
 			IsPhoneLocked = true;
 		}
@@ -81,10 +71,16 @@ public class Scenario
 
 	public IEnumerable<string> TestAllRules()
 	{
-		return Rules.Where(x => x.Test(this)).Select(x => x.Description);
+		return Rules.Where(x => !x.Test(this)).Select(x => x.Description);
 	}
 
-	public void SetHistoricalAction(Scenario.actions action)
+    public IEnumerable<string> CheckLosses()
+    {
+        return ScenarioStore.LossRules.Where(x => !x.Test(this)).Select(x => x.Description);
+    }
+
+
+    public void SetHistoricalAction(Scenario.actions action)
 	{
 		History.Add(action);
 	}
