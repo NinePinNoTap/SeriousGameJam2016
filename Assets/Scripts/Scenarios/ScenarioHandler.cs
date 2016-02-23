@@ -11,11 +11,17 @@ using System.Linq;
 public class ScenarioHandler : MonoBehaviour 
 {
     public Scenario currentScenario;
+    [SerializeField] Text context;
 
     // Use this for initialization
     void Start () 
     {
 		currentScenario = ScenarioStore.Data.RandomItem();
+    }
+
+    void Update()
+    {
+    	context.text = currentScenario.Context;
     }
     
     public IList<string> CheckVictory()

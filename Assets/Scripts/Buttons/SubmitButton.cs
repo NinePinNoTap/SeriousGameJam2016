@@ -1,21 +1,32 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public class SubmitButton : MonoBehaviour
 {
+	[SerializeField] Text endText;
+	[SerializeField] GameObject endPanel;
+
 	private ScenarioHandler handler;
 	void Start()
 	{
-		handler = GameObject.Find("WorldController").GetComponent<ScenarioHandler>();
+		handler = GameObject.Find("InteractionController").GetComponent<ScenarioHandler>();
 	}
 
 	public void Submit()
 	{
 		IList<string> errors = handler.CheckVictory();
 
-		foreach(string error in errors)
+		endPanel.SetActive(true);
+		if(errors.Any())
 		{
-			Debug.Log(error);
+			endText.text = String.Join("\n\n", errors.ToArray());
+		}
+		else // they were successful
+		{
+			endText.text = "Amazing! You did it!";
 		}
 	}
 }

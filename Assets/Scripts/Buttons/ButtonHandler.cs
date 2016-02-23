@@ -19,7 +19,7 @@ public class ButtonHandler : MonoBehaviour
         // Not the best but add all game objects into a dictionary
         GameObject[] objs = GameObject.FindGameObjectsWithTag(componentTag);
 
-        Debug.Log("Found : " + objs.Length);
+//        Debug.Log("Found : " + objs.Length);
 
         objDictionary = new Dictionary<string, GameObject>();
         foreach(GameObject obj in objs)
