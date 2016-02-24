@@ -72,8 +72,9 @@ public static class ScenarioStore
 		     new Rule( scene => !scene.History.Contains(Scenario.actions.SdCardDamaged),
                  "SD Destroyed - See \"Appendix A - Volatile Data Collection\" of the ACPO Good Practice Guide for Digital Evidence"),
 			//•    If Faraday cage not fitted/airplane mode not activated.
-			new Rule( scene => IsAfter(scene, Scenario.actions.InFaraday, Scenario.actions.OutFaraday)  ||
-							IsAfter(scene, Scenario.actions.AirplaneModeOn, Scenario.actions.AirplaneModeOff),
+			new Rule( scene => IsAfter(scene, Scenario.actions.InFaraday, Scenario.actions.OutFaraday)  ||	// it was put in a Faraday cage and not taken out
+							IsAfter(scene, Scenario.actions.AirplaneModeOn, Scenario.actions.AirplaneModeOff) ||	// phone was turned to Airplane mode and not turned off
+		         			(!scene.History.Contains(Scenario.actions.AirplaneModeOff) && !scene.IsWifi),				// phone started in airplane mode and not turned off
                     "No Faraday Cage fitted or Aeroplane Mode activated - Potential data loss from remote access"),
 			//x    If the phone is turned off.
 			new Rule( scene => !(scene.History.Any(x => x == Scenario.actions.TurnOff) || scene.History.Any(x => x == Scenario.actions.TurnOn)), 

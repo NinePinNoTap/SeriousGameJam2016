@@ -53,9 +53,13 @@ public class PhoneController : MonoBehaviour
 			ShowHomeScreen();
 		}
 
-		if(ScenarioHandler.Instance.currentScenario.IsWifi)
+		if (ScenarioHandler.Instance.currentScenario.IsWifi) 
 		{
-			imageAirplaneMode.Toggle(true);
+			imageAirplaneMode.Toggle (false);
+		} 
+		else 
+		{
+			imageAirplaneMode.Toggle (true);
 		}
 	}
 

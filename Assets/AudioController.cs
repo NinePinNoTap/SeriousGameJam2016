@@ -6,17 +6,17 @@ using System.Collections;
 public class AudioController : MonoBehaviour {
 
 	//Audio Source object
-	AudioSource audio;
+	AudioSource audioObject;
 
 	//Start method to assign audio emitter and play startup sound
 	void Start() {
 
-		audio = GetComponent<AudioSource>();
+		audioObject = GetComponent<AudioSource>();
 	}
 
 public void PlaySound(AudioClip audioClip){
-		audio.clip = audioClip;
-		audio.Play();
+		audioObject.clip = audioClip;
+		audioObject.Play();
 		//audio.Play(44100);
 	}
 }
