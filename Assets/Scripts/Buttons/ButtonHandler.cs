@@ -11,7 +11,6 @@ public class ButtonHandler : MonoBehaviour
 {
     public string componentTag = "PhoneComponent";
     public PhoneController phoneController;
-	public GameObject InQuestion;
     private Dictionary<string, GameObject> objDictionary;
 
     void Start()
@@ -77,10 +76,11 @@ public class ButtonHandler : MonoBehaviour
     {
 		if(TryIsActive("simCard") == 1)
 		{
+			Audio.GetPullObjectOutSound().Play ();
 			ScenarioHandler.Instance.currentScenario.SetHistoricalAction(Scenario.actions.SimCardRemoved);
+			TrySetActive("simCard", false);
 		}
-        TrySetActive("simCard", false);
-		InQuestion = GameObject.Find("simCard");
+		GameObject InQuestion = GameObject.Find("simCard");
 		Destroy (InQuestion);
         LeaveAlone();
 
@@ -90,7 +90,7 @@ public class ButtonHandler : MonoBehaviour
     {
 		ScenarioHandler.Instance.currentScenario.SetHistoricalAction(Scenario.actions.SimCardDamaged);
         TryDestroy("simCard");
-		InQuestion = GameObject.Find("simCard");
+		GameObject InQuestion = GameObject.Find("simCard");
 		Destroy (InQuestion);
         LeaveAlone();
     }
@@ -103,9 +103,10 @@ public class ButtonHandler : MonoBehaviour
     {
 		if(TryIsActive("memoryCard") == 1)
 		{
+			Audio.GetPullObjectOutSound().Play ();
 			ScenarioHandler.Instance.currentScenario.SetHistoricalAction(Scenario.actions.SdCardRemoved);
+			TrySetActive("memoryCard", false);
 		}        
-		TrySetActive("memoryCard", false);
         LeaveAlone();
     }
 
@@ -124,7 +125,7 @@ public class ButtonHandler : MonoBehaviour
 	{
 		TrySetActive("batteryCard", false);
 		phoneController.IsBatteryProvidingPower = false;
-		phoneController.TurnPhoneOff();
+		PowerPhoneDown(false);
         LeaveAlone();
     }
 
@@ -132,7 +133,7 @@ public class ButtonHandler : MonoBehaviour
     {
 		TryDestroy("batteryCard");
 		phoneController.IsBatteryProvidingPower = false;
-		phoneController.TurnPhoneOff();
+		PowerPhoneDown(false);
         LeaveAlone();
     }
 
@@ -144,25 +145,36 @@ public class ButtonHandler : MonoBehaviour
     {
 		if(phoneController.IsBatteryProvidingPower)
 		{
-			Debug.Log ("Called!");
 			if(phoneController.canvasPhoneOff.activeSelf)
 			{
+				Audio.GetStartUp().Play();
 				ScenarioHandler.Instance.currentScenario.SetHistoricalAction(Scenario.actions.TurnOn);
+				phoneController.TurnPhoneOn();
+				phoneController.ShowLockScreen();
 			}
-	        phoneController.TurnPhoneOn();
-	        phoneController.ShowLockScreen();
-        }
-    }
-	
+		}
+	}
+
+	// this method is called by the generated buttons and cannot have parameters
 	public void TurnOffPhone()
+	{
+		PowerPhoneDown (true);
+	}
+
+	// this method shuts down the phone if the power button is pressed OR if the battery is removed
+	private void PowerPhoneDown(bool playSound)
 	{
 		if(phoneController.canvasPhoneOn.activeSelf)
 		{
+			if(playSound)
+			{
+				Audio.GetShutdown().Play();
+			}
 			ScenarioHandler.Instance.currentScenario.SetHistoricalAction(Scenario.actions.TurnOff);
-		}
-		phoneController.TurnPhoneOff();
+			phoneController.TurnPhoneOff();
+		}	
 	}
-	
+
 	//==============================================
 	// AEROPLANE MODE
 	//==============================================

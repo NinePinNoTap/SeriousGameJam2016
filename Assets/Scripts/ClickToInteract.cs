@@ -42,7 +42,6 @@ public class ClickToInteract : MonoBehaviour
 			// Raycast and see what we hit
 			if (Physics.Raycast(ray, out hit))
 			{
-				Debug.Log (hit.transform.name);
                 menuHandler.HandleClick(hit.transform.gameObject);
 			}
 			else

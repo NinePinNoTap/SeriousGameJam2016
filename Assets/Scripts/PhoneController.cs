@@ -38,6 +38,7 @@ public class PhoneController : MonoBehaviour
 		if(ScenarioHandler.Instance.currentScenario.IsBatteryLow)
 		{
 			ChangeBatteryLevel(Random.Range(5, 15));
+			Audio.GetLowBattery().Play ();
 		}
 		else
 		{
@@ -65,9 +66,8 @@ public class PhoneController : MonoBehaviour
 
 	public void TurnPhoneOn()
 	{
-		canvasPhoneOn.SetActive(true);
-		canvasPhoneOff.SetActive(false);
-		//AudioController.PlaySound(PhoneOnClip);
+		canvasPhoneOn.SetActive (true);
+		canvasPhoneOff.SetActive (false);
 	}
 
 	public void TurnPhoneOff()
