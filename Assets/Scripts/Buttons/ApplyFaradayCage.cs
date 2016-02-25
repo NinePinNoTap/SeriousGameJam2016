@@ -5,7 +5,6 @@ using System.Collections;
 public class ApplyFaradayCage : MonoBehaviour
 {
 	[Header("Components")]
-	public Text buttonText;
 	public SwipeToRotate phoneSwipe;
 	public GameObject faradayCage;
 	public Transform cameraTransform;
@@ -27,7 +26,6 @@ public class ApplyFaradayCage : MonoBehaviour
 	void Start()
 	{
 		isActivated = false;
-		buttonText.text = textInactive;
 		faradayCage.SetActive(false);
 		phoneSwipe.Activate();
 	}

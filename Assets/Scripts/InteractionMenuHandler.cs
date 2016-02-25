@@ -79,7 +79,7 @@ public class InteractionMenuHandler : MonoBehaviour
         menuObj = GameObject.Instantiate(menuPrefab);
         menuObj.transform.name = "Interaction Menu";
         menuObj.transform.SetParent(canvas.transform);
-        menuObj.GetComponent<RectTransform>().anchoredPosition = new Vector2(-187, 45);
+        menuObj.GetComponent<RectTransform>().anchoredPosition = new Vector2(-30, -30);
         menuObj.GetComponent<RectTransform>().localScale = new Vector3(1,1,1);
     }
 
