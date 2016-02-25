@@ -17,6 +17,13 @@ public class SubmitButton : MonoBehaviour
 
 	public void Submit()
 	{
+		// Make sure we aren't showing the interaction menu
+		GameObject temp = GameObject.Find ("Interaction Menu");
+		if(temp)
+		{
+			Destroy(temp);
+		}
+
 		IList<string> errors = handler.CheckVictory();
 
 		endPanel.SetActive(true);
