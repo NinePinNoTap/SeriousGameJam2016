@@ -41,7 +41,7 @@ public class ScenarioHandler : MonoBehaviour
 
     void Update()
     {
-    	//context.text = currentScenario.Context;
+    	context.text = currentScenario.Context;
     }
     
     public IList<string> CheckVictory()
