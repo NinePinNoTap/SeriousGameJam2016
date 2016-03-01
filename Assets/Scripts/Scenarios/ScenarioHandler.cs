@@ -35,13 +35,13 @@ public class ScenarioHandler : MonoBehaviour
         Instance = this;
 
         // ensure this is run before Start() is for other objects
-   		currentScenario = ScenarioStore.Data.RandomItem();
+		currentScenario = ScenarioStore.Data.RandomItem();
+		context.text = currentScenario.Context;
    	}
 
 
     void Update()
     {
-    	context.text = currentScenario.Context;
     }
     
     public IList<string> CheckVictory()
